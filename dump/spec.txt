@@ -1,3 +1,0 @@
-login screen -> main part is student login
-                link for teacher login
-                link for student sign up
