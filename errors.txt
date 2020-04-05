@@ -1,0 +1,17 @@
+100 -> student login success
+101 -> student login email not found
+102 -> student login false password
+103 -> wrong admin password
+104 -> teacher already exists
+105 -> teacher creation success
+106 -> teacher list success
+107 -> student under teacher list success
+108 -> student email already exists
+109 -> student creation success
+110 -> teacher login email not found
+111 -> teacher login false password
+112 -> teacher login success
+113 -> session deletion success
+114 -> session not found
+115 -> room search success
+116 -> room search failed
