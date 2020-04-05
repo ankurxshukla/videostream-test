@@ -18,10 +18,10 @@ def create_student(student_email, student_password, student_name, student_teache
         cr.execute('INSERT INTO student_table (email, password, full_name, teacher_id, student_class) VALUES (?, ?, ?, ?, ?)', (student_email, student_password, student_name, student_teacher_id, student_class))
         conn.commit()
         conn.close()
-        return True, 109
+        return 109
     else:
         conn.close()
-        return False, 108
+        return 108
 
 def login(student_email, student_password):
     try:
@@ -32,13 +32,13 @@ def login(student_email, student_password):
     password = cr.execute('SELECT password FROM student_table WHERE email = ?', [student_email]).fetchone()
     if(password == None):
         conn.close()
-        return False, 101
+        return 101
     elif(password == student_password):
         conn.close()
-        return True, 100
+        return 100
     else:
         conn.close()
-        return False, 102
+        return 102
 
 def get_student_detail(student_id):
     try:
