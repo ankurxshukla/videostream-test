@@ -39,13 +39,13 @@ def get_room_details(room_id):
         conn.close()
         return 116, '', '', ''
 
-def create_room(room_name, room_session_id, room_teacher_id):
+def create_room(room_name, room_session_id, token, room_teacher_id):
     try:
         conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute(str('INSERT INTO rooms_table (name, session_id, teacher_id) VALUES (\'%s\', \'%s\', \'%s\')'%(room_name, room_session_id, room_teacher_id)))
+    cr.execute(str('INSERT INTO rooms_table (name, session_id, token, teacher_id) VALUES (\'%s\', \'%s\', \'s\', \'%s\')'%(room_name, room_session_id, token, room_teacher_id)))
     conn.commit()
     conn.close()
 

@@ -6,7 +6,6 @@ import os
 import session_db
 import student_db
 import teacher_db
-import sqlite3
 
 app = Flask(__name__)
 api_key = '46641862'
@@ -25,7 +24,8 @@ def initialize_session():
     room_name = request.form['room_name']
     session = opentok.create_session()
     session_id = session.session_id
-    room_id = session_db.create_room(room_name, session_id, teacher_id)
+    token = session.generate_token()
+    room_id = session_db.create_room(room_name, session_id, token, teacher_id)
     return {'room_name': room_name, 'session_id': session_id, 'teacher_id': teacher_id}
 
 @app.route('/token', methods=['POST'])
@@ -113,5 +113,3 @@ def teachers_list():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    conn = sqlite3.connect(DATABASE)
-    conn.close()
