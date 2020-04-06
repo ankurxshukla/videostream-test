@@ -1,5 +1,4 @@
 import psycopg2
-from flask_sqlalchemy import SQLAlchemy
 
 DB_URL = 'postgres://dgtasygcbqjaml:35fd7f22844e1f60e40cf2256e6fedb0e054d2bcb3eacd5476ad879cb5630728@ec2-54-159-112-44.compute-1.amazonaws.com:5432/d4ai9acoao41u2'
 
