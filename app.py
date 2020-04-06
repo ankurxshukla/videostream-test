@@ -30,13 +30,9 @@ def initialize_session():
 
 @app.route('/token', methods=['POST'])
 def generate_token():
-    room_id = request.form['room_id']
-    result_code, room_name, room_session_id, room_teacher_id = session_db.get_room_details(room_id)
-    if(result_code == 115):
-        token = opentok.generate_token(room_session_id, expire_time=int(time.time() + (2 * 60 * 60)))
-        return {'result_code': result_code, 'room_name': room_name, 'session_id': room_session_id, 'room_teacher_id': room_teacher_id, 'token': token}
-    else:
-        return {'result_code': result_code}
+    session_id = request.form['session_id']
+    token = opentok.generate_token(session_id)
+    return {'token': token}
 
 @app.route('/rooms')
 def rooms():
