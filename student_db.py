@@ -8,7 +8,7 @@ def create_student(student_email, student_password, student_name, student_teache
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute(str('SELECT * from student_table WHERE email = \'%s\''%(student_email)))
+    cr.execute(str('SELECT * FROM student_table WHERE email = \'%s\''%(student_email)))
     row = cr.fetchone()
     if(row == None):
         cr.execute(str('INSERT INTO student_table (email, password, full_name, teacher_id, student_class) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')'%(student_email, student_password, student_name, student_teacher_id, student_class)))
@@ -25,7 +25,9 @@ def login(student_email, student_password):
     except Error as e:
         print(e)
     cr = conn.cursor()
-    password = cr.execute(str('SELECT password from student_table WHERE email = \'%s\''%(student_email))).fetchone()
+    cr.execute(str('SELECT password FROM student_table WHERE email = \'%s\''%(student_email)))
+    row = cr.fetchone()
+    password = row[0]
     if(password == None):
         conn.close()
         return 101

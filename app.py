@@ -66,6 +66,11 @@ def create_student():
     result_code = student_db.create_student(student_email, student_password, student_name, student_teacher_id, student_class)
     return {'result_code': result_code}
 
+
+@app.route('/student_login_page')
+def student_login_page():
+    return render_template('student_login.html')
+
 @app.route('/student_login', methods=['POST'])
 def initiate_student_login():
     student_email = request.form['student_email']
