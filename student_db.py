@@ -33,7 +33,7 @@ def login(student_email, student_password):
     if(password == None):
         conn.close()
         return 101
-    elif(password == student_password):
+    elif(str(password) == str(student_password)):
         conn.close()
         return 100
     else:
