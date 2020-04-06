@@ -18,6 +18,7 @@ opentok = OpenTok(api_key, api_secret)
 def func():
     return render_template('index.html')
 
+# ROOMS DATABASE
 @app.route('/create_session', methods = ["POST"])
 def initialize_session():
     teacher_id = request.form['teacher_id']
@@ -27,7 +28,6 @@ def initialize_session():
     session_db.create_room(room_name, session_id, teacher_id)
     return {'room_name': room_name, 'session_id': session_id, 'teacher_id': teacher_id}
 
-# Get token
 @app.route('/token', methods=['POST'])
 def generate_token():
     room_id = request.form['room_id']
@@ -38,7 +38,6 @@ def generate_token():
     else:
         return {'result_code': result_code}
 
-# Get active rooms
 @app.route('/rooms')
 def rooms():
     room_id_list, room_name_list, room_session_id_list, room_teacher_id_list = session_db.get_rooms_list()
@@ -56,6 +55,8 @@ def session_details():
     room_name, session_id, teacher_id = session_db.get_room_details(room_id)
     return {'room_name': room_name, 'session_id': session_id, 'teacher_id': teacher_id}
 
+
+# STUDENT DATABASE
 @app.route('/create_student', methods=['POST'])
 def create_student():
     student_email = request.form['student_email']
@@ -65,11 +66,6 @@ def create_student():
     student_class = request.form['student_class']
     result_code = student_db.create_student(student_email, student_password, student_name, student_teacher_id, student_class)
     return {'result_code': result_code}
-
-
-@app.route('/student_login_page')
-def student_login_page():
-    return render_template('student_login.html')
 
 @app.route('/student_login', methods=['POST'])
 def initiate_student_login():
@@ -81,9 +77,11 @@ def initiate_student_login():
 @app.route('/student_details', methods=['POST'])
 def get_student_details():
     student_id = request.form['student_id']
-    student_email, student_name, student_teacher_id, student_class = student_db.get_student_detail(student_id)
+    student_email, student_name, student_teacher_id, student_class = student_db.get_student_details(student_id)
     return {'student_email': student_email, 'student_name': student_name, 'student_teacher_id': student_teacher_id, 'student_class': student_class}
 
+
+# TEACHER DATABASE
 @app.route('/create_teacher', methods=['POST'])
 def create_teacher():
     teacher_email = request.form['teacher_email']
@@ -100,8 +98,8 @@ def initiate_teacher_login():
     result_code = teacher_db.login(teacher_email, teacher_password)
     return {'result_code': result_code}
 
-@app.route('/get_student_under_teacher', methods=['POST'])
-def get_student_under_teacher():
+@app.route('/get_students_under_teacher', methods=['POST'])
+def get_students_under_teacher():
     admin_password = request.form['admin_password']
     teacher_id = request.form['teacher_id']
     result_code,  student_email_list, student_name_list = teacher_db.get_students_under_teacher(admin_password, teacher_id)

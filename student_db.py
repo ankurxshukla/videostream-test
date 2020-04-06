@@ -44,7 +44,7 @@ def login(student_email, student_password):
         conn.close()
         return 102
 
-def get_student_detail(student_id):
+def get_student_details(student_id):
     try:
         conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
