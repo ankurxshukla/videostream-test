@@ -11,10 +11,16 @@ def create_student(student_email, student_password, student_name, student_teache
     cr.execute(str('SELECT * FROM student_table WHERE email = \'%s\''%(student_email)))
     row = cr.fetchone()
     if(row == None):
-        cr.execute(str('INSERT INTO student_table (email, password, full_name, teacher_id, student_class) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')'%(student_email, student_password, student_name, student_teacher_id, student_class)))
-        conn.commit()
-        conn.close()
-        return 109
+        cr.execute(str('SELECT * FROM teacher_table WHERE id = \'%s\''%(student_teacher_id)))
+        row = cr.fetchone()
+        if row == None:
+            conn.close()
+            return 117
+        else:
+            cr.execute(str('INSERT INTO student_table (email, password, full_name, teacher_id, student_class) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')'%(student_email, student_password, student_name, student_teacher_id, student_class)))
+            conn.commit()
+            conn.close()
+            return 109
     else:
         conn.close()
         return 108
@@ -44,7 +50,7 @@ def get_student_detail(student_id):
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute('SELECT email, full_name, teacher_id, student_class FROM student_table WHERE id = ?', [student_id])
+    cr.execute('SELECT email, full_name, teacher_id, student_class FROM student_table WHERE id = \'%s\''%(student_id))
     rows = cr.fetchone()
     conn.close()
     return rows[0], rows[1], rows[2], rows[3]
