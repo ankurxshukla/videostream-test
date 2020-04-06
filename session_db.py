@@ -4,7 +4,7 @@ DB_URL = 'postgres://dgtasygcbqjaml:35fd7f22844e1f60e40cf2256e6fedb0e054d2bcb3ea
 
 def get_rooms_list():
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
@@ -26,11 +26,11 @@ def get_rooms_list():
 
 def get_room_details(room_id):
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute('SELECT * FROM rooms_table WHERE id = ?', str(room_id))
+    cr.execute(str('SELECT * FROM rooms_table WHERE id = \'%s\''%(room_id)))
     row = cr.fetchone()
     if(row != None):
         conn.close()
@@ -41,20 +41,21 @@ def get_room_details(room_id):
 
 def create_room(room_name, room_session_id, room_teacher_id):
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute('INSERT INTO rooms_table (name, session_id, teacher_id) VALUES (?, ?, ?);', (room_name, room_session_id, room_teacher_id))
+    cr.execute(str('INSERT INTO rooms_table (name, session_id, teacher_id) VALUES (\'%s\', \'%s\', \'%s\')'%(room_name, room_session_id, room_teacher_id)))
     conn.commit()
     conn.close()
 
-def delete_room(room_id):
-    conn = sqlite3.connect(DATABASE)
+def delete_room(session_id):
+    conn = psycopg2.connect(DB_URL, sslmode='require')
     cr = conn.cursor()
-    row = cr.execute('SELECT * FROM rooms_table WHERE id = ?', [room_id]).fetchone()
+    cr.execute(str('SELECT * FROM rooms_table WHERE session_id = \'%s\''%(session_id)))
+    row = cr.fetchone()
     if row != None:
-        cr.execute('DELETE FROM rooms_table WHERE id = ?', [room_id])
+        cr.execute(str('DELETE FROM rooms_table WHERE session_id = \'%s\''%(session_id)))
         conn.commit()
         conn.close()
         return 113

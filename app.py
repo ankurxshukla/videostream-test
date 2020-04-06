@@ -25,7 +25,7 @@ def initialize_session():
     room_name = request.form['room_name']
     session = opentok.create_session()
     session_id = session.session_id
-    session_db.create_room(room_name, session_id, teacher_id)
+    room_id = session_db.create_room(room_name, session_id, teacher_id)
     return {'room_name': room_name, 'session_id': session_id, 'teacher_id': teacher_id}
 
 @app.route('/token', methods=['POST'])
@@ -45,8 +45,8 @@ def rooms():
 
 @app.route('/delete_session', methods=['POST'])
 def delete_session():
-    room_id = str(request.form['room_id'])
-    result_code = session_db.delete_room(room_id)
+    session_id = str(request.form['session_id'])
+    result_code = session_db.delete_room(session_id)
     return result_code
 
 @app.route('/session_details', methods=['POST'])

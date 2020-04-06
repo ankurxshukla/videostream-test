@@ -11,7 +11,7 @@ def create_teacher(teacher_email, teacher_password, teacher_name, admin_password
         except Error as e:
             print(e)
         cr = conn.cursor()
-        cr.execute(str('SELECT * FROM teacher_table WHERE email = \'%s\''%(teacher_email))).fetchone()
+        cr.execute(str('SELECT * FROM teacher_table WHERE email = \'%s\''%(teacher_email)))
         row = cr.fetchone()
         if row == None:
             cr.execute(str('INSERT INTO teacher_table (email, password, full_name) VALUES (\'%s\', \'%s\', \'%s\')'%(teacher_email, teacher_password, teacher_name)))
