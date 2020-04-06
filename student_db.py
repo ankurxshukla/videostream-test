@@ -33,11 +33,10 @@ def login(student_email, student_password):
     cr = conn.cursor()
     cr.execute(str('SELECT password FROM student_table WHERE email = \'%s\''%(student_email)))
     row = cr.fetchone()
-    password = row[0]
-    if(password == None):
+    if(row == None):
         conn.close()
         return 101
-    elif(password == student_password):
+    elif(row[0] == student_password):
         conn.close()
         return 100
     else:

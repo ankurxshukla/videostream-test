@@ -69,13 +69,14 @@ def login(teacher_email, teacher_password):
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute(str('SELECT password FROM student_table WHERE email = \'%s\''%(teacher_email)))
+    cr.execute(str('SELECT password FROM teacher_table WHERE email = \'%s\''%(teacher_email)))
     row = cr.fetchone()
-    conn.close()
-    password = row[0]
-    if(password == None):
+    if(row == None):
+        conn.close()
         return 110
-    elif(password == teacher_password):
+    elif(row[0] == teacher_password):
+        conn.close()
         return 112
     else:
+        conn.close()
         return 111
