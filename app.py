@@ -26,7 +26,7 @@ def initialize_session():
     session_id = session.session_id
     token = session.generate_token()
     room_id = session_db.create_room(room_name, session_id, token, teacher_id)
-    return {'room_name': room_name, 'session_id': session_id, 'teacher_id': teacher_id}
+    return {'room_name': room_name, 'session_id': session_id, 'token': token, 'teacher_id': teacher_id}
 
 @app.route('/token', methods=['POST'])
 def generate_token():
