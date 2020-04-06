@@ -45,7 +45,7 @@ def create_room(room_name, room_session_id, token, room_teacher_id):
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute(str('INSERT INTO rooms_table (name, session_id, token, teacher_id) VALUES (\'%s\', \'%s\', \'s\', \'%s\')'%(room_name, room_session_id, token, room_teacher_id)))
+    cr.execute(str('INSERT INTO rooms_table (name, session_id, token, teacher_id) VALUES (\'%s\', \'%s\', \'%s\', \'%s\')'%(room_name, room_session_id, token, room_teacher_id)))
     conn.commit()
     conn.close()
 
