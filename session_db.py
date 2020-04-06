@@ -1,9 +1,6 @@
-import sqlite3
-import os
+import psycopg2
 
-PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
-DATABASE = os.path.join(PROJECT_ROOT, 'database', 'videostream.db')
-conn = None
+DB_URL = 'postgres://dgtasygcbqjaml:35fd7f22844e1f60e40cf2256e6fedb0e054d2bcb3eacd5476ad879cb5630728@ec2-54-159-112-44.compute-1.amazonaws.com:5432/d4ai9acoao41u2'
 
 def get_rooms_list():
     try:

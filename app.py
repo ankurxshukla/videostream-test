@@ -76,9 +76,9 @@ def initiate_student_login():
 
 @app.route('/student_details', methods=['POST'])
 def get_student_details():
-    student_id = request.form['student_id']
-    student_email, student_name, student_teacher_id, student_class = student_db.get_student_details(student_id)
-    return {'student_email': student_email, 'student_name': student_name, 'student_teacher_id': student_teacher_id, 'student_class': student_class}
+    student_email = request.form['student_email']
+    student_id, student_name, student_teacher_id, student_class = student_db.get_student_details(student_email)
+    return {'student_id': student_id, 'student_email': student_email, 'student_name': student_name, 'student_teacher_id': student_teacher_id, 'student_class': student_class}
 
 
 # TEACHER DATABASE

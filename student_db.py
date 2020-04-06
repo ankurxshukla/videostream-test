@@ -44,13 +44,13 @@ def login(student_email, student_password):
         conn.close()
         return 102
 
-def get_student_details(student_id):
+def get_student_details(student_email):
     try:
         conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute('SELECT email, full_name, teacher_id, student_class FROM student_table WHERE id = \'%s\''%(student_id))
+    cr.execute('SELECT id, full_name, teacher_id, student_class FROM student_table WHERE email = \'%s\''%(student_email))
     rows = cr.fetchone()
     conn.close()
     return rows[0], rows[1], rows[2], rows[3]
