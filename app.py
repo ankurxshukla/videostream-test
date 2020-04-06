@@ -13,9 +13,6 @@ api_key = '46641862'
 api_secret = '641d7983a105e26612710177756d9f09928ee090'
 opentok = OpenTok(api_key, api_secret)
 
-PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
-DATABASE = os.path.join(app.root_path, 'database', 'videostream.db')
-
 # Index
 @app.route('/')
 def func():

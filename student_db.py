@@ -1,21 +1,18 @@
-import sqlite3
-import os
+import psycopg2
+from flask_sqlalchemy import SQLAlchemy
 
-PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
-DATABASE = os.path.join(PROJECT_ROOT, 'database', 'videostream.db')
-print(DATABASE)
-conn = None
+DB_URL = 'postgres://dgtasygcbqjaml:35fd7f22844e1f60e40cf2256e6fedb0e054d2bcb3eacd5476ad879cb5630728@ec2-54-159-112-44.compute-1.amazonaws.com:5432/d4ai9acoao41u2'
 
 def create_student(student_email, student_password, student_name, student_teacher_id, student_class):
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
-    cr.execute('SELECT * from student_table WHERE email = ?', [student_email])
+    cr.execute(str('SELECT * from student_table WHERE email = \'%s\''%(student_email)))
     row = cr.fetchone()
     if(row == None):
-        cr.execute('INSERT INTO student_table (email, password, full_name, teacher_id, student_class) VALUES (?, ?, ?, ?, ?)', (student_email, student_password, student_name, student_teacher_id, student_class))
+        cr.execute(str('INSERT INTO student_table (email, password, full_name, teacher_id, student_class) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')'%(student_email, student_password, student_name, student_teacher_id, student_class)))
         conn.commit()
         conn.close()
         return 109
@@ -25,15 +22,15 @@ def create_student(student_email, student_password, student_name, student_teache
 
 def login(student_email, student_password):
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
-    password = cr.execute('SELECT password FROM student_table WHERE email = ?', [student_email]).fetchone()
+    password = cr.execute(str('SELECT password from student_table WHERE email = \'%s\''%(student_email))).fetchone()
     if(password == None):
         conn.close()
         return 101
-    elif(str(password) == str(student_password)):
+    elif(password == student_password):
         conn.close()
         return 100
     else:
@@ -42,7 +39,7 @@ def login(student_email, student_password):
 
 def get_student_detail(student_id):
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = psycopg2.connect(DB_URL, sslmode='require')
     except Error as e:
         print(e)
     cr = conn.cursor()
